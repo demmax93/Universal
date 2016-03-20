@@ -60,88 +60,128 @@ void QMatr :: show(void)
 }
 
 istream& operator>>(istream &h,const QMatr& a)
-{   cout<<"razmernost' matrix = "<<a.dim<<"*"<<a.dim<<endl;
+{
+    cout<<"razmernost' matrix = "<<a.dim<<"*"<<a.dim<<endl;
     cout<<"Vvedite koordinati matrix"<<endl;
     int k=1;
     for(int i=0;i<a.dim;i++)
         for(int j=0;j<a.dim;j++,k++)
             a.Xi[i][j]=k;
-    return h;}
+    return h;
+}
 
 ostream& operator<<(ostream &h,const QMatr& a)
-{for(int i=0;i<a.dim;i++,cout<<endl)
+{
+    for(int i=0;i<a.dim;i++,cout<<endl)
         for(int j=0;j<a.dim;j++)
-        {cout<<a.Xi[i][j].real()<<"\t";}
- return h;}
+        {
+            cout<<a.Xi[i][j].real()<<" + i"<<a.Xi[i][j].imag();
+        }
+    return h;
+}
 
 QMatr operator+(const QMatr& a1,QMatr a2)
-{QMatr a3;
- if(a1.dim == a2.dim)
-     for(int i=0;i<a1.dim;i++)
-         for(int j=0;j<a1.dim;j++)
-         {a3.Xi[i][j]=a1.Xi[i][j]+a2.Xi[i][j];}
+{
+    QMatr a3;
+    if(a1.dim == a2.dim)
+        for(int i=0;i<a1.dim;i++)
+            for(int j=0;j<a1.dim;j++)
+            {
+                a3.Xi[i][j]=a1.Xi[i][j]+a2.Xi[i][j];
+            }
      else cout<<"Error";
- return a3;}
+    return a3;
+}
 
 QMatr& QMatr:: operator +=(QMatr a)
-{if(dim == a.dim)
+{
+    if(dim == a.dim)
         for(int i=0;i<a.dim;i++)
             for(int j=0;j<a.dim;j++)
-            {Xi[i][j]+=a.Xi[i][j];}
-     else cout<<"Error";
- return *this;}
+            {
+                Xi[i][j]+=a.Xi[i][j];
+            }
+    else cout<<"Error";
+    return *this;
+}
 
 QMatr operator-(const QMatr& a1,QMatr a2)
-{QMatr a3;
- if(a1.dim == a2.dim)
-     for(int i=0;i<a1.dim;i++)
-         for(int j=0;j<a1.dim;j++)
-         {a3.Xi[i][j]=a1.Xi[i][j]-a2.Xi[i][j];}
-     else cout<<"Error";
- return a3;}
+{
+    QMatr a3;
+    if(a1.dim == a2.dim)
+        for(int i=0;i<a1.dim;i++)
+            for(int j=0;j<a1.dim;j++)
+            {
+                a3.Xi[i][j]=a1.Xi[i][j]-a2.Xi[i][j];
+            }
+    else cout<<"Error";
+    return a3;
+}
 
 QMatr& QMatr:: operator -=(QMatr a)
-{if(dim == a.dim)
+{
+    if(dim == a.dim)
         for(int i=0;i<a.dim;i++)
             for(int j=0;j<a.dim;j++)
-            {Xi[i][j]-=a.Xi[i][j];}
-     else cout<<"Error";
- return *this;}
+            {
+                Xi[i][j]-=a.Xi[i][j];
+            }
+    else cout<<"Error";
+    return *this;
+}
 
 QMatr& QMatr:: operator -()
-{for(int i=0;i<dim;i++)
+{
+    for(int i=0;i<dim;i++)
      for(int j=0;j<dim;j++)
-        // Xi[i][j]=-1*Xi[i][j];
-return *this;}
+        Xi[i][j]-=Xi[i][j];
+    return *this;
+}
 
 QMatr operator *(complex<double> X, const QMatr&  a)
-{QMatr b; b.dim=a.dim;
+{
+    QMatr b;
+    b.dim=a.dim;
     for(int i=0;i<a.dim;i++)
         for(int j=0;j<a.dim;j++)
-        {b.Xi[i][j]=a.Xi[i][j]; b.Xi[i][j]*=X;}
-return b;}
+        {
+            b.Xi[i][j]=a.Xi[i][j];
+            b.Xi[i][j]*=X;
+        }
+    return b;
+}
 
 QMatr operator *(const QMatr& a1, const QMatr& a2)
-{QMatr b;
+{
+    QMatr b;
     if(a1.dim==a2.dim)
-    {b.dim=a1.dim;
-    for(int i=0;i<a1.dim;i++)
-        for(int j=0;j<a1.dim;j++)
-        {b.Xi[i][j]=a1.Xi[i][j]*a2.Xi[j][i];}}
+    {
+        b.dim=a1.dim;
+        for(int i=0;i<a1.dim;i++)
+            for(int j=0;j<a1.dim;j++)
+            {
+               b.Xi[i][j]=a1.Xi[i][j]*a2.Xi[j][i];
+            }
+    }
     else cout<<"Error";
-return b;}
+    return b;
+}
 
 QMatr& QMatr:: operator *=(double X)
-{for(int i=0;i<dim;i++)
+{
+    for(int i=0;i<dim;i++)
         for(int j=0;j<dim;j++)
             Xi[i][j]*=X;
-    return *this;}
+    return *this;
+}
 
 QMatr& QMatr:: operator /=(double X)
-{for(int i=0;i<dim;i++)
+{
+    for(int i=0;i<dim;i++)
         for(int j=0;j<dim;j++)
             Xi[i][j]/=X;
-    return *this;}
+    return *this;
+}
 
 complex<double>* QMatr::operator[](int k)
 {
@@ -171,7 +211,7 @@ complex<double>* QMatr::col(int k)
     b=new complex<double> [dim];
         for(int j=0;j<dim;j++)
             b[j]=Xi[j][k];
- return b;
+    return b;
 }
 
 complex<double>* QMatr::diag()
@@ -180,14 +220,16 @@ complex<double>* QMatr::diag()
     b=new complex<double> [dim];
         for(int j=0;j<dim;j++)
             b[j]=Xi[j][j];
- return b;
+    return b;
 }
 
 QMatr QMatr::transonir(QMatr a)
 {
     for(int i=0;i<dim;i++)
-    for(int j=0;j<dim;j++)
-    {Xi[i][j]=a.Xi[j][i];}
+        for(int j=0;j<dim;j++)
+        {
+            Xi[i][j]=a.Xi[j][i];
+        }
     return *this;
 }
 
@@ -270,12 +312,12 @@ QMatr obr(QMatr &A)
         return 0;
     }
     else {
-        B=(Adj(C))/=d;
+        B=(Adj(C))/=d.real();
         return B;
     }
 }
 
-QVect QMatr::methodStrok()
+/*QVect QMatr::methodStrok()
 {
     QVect b(dim*dim);
 	int k = 0;
@@ -308,7 +350,7 @@ QVect QMatr::methodStrokConverse()
 		{
 			for (int j = n-1; j>=0 ; j--, k++)
 			{
-				b[k] =Xi[i][j];
+				b[k] = Xi[i][j];
 			}
 		}
 
@@ -416,7 +458,7 @@ QVect QMatr::methodCycle()
 void QMatr::fastsort(int k,int bi,int li)
 {
     int i, j;
-    double temp, s;
+    complex<double> temp, s;
 
     i=bi;
     j=li;
@@ -476,10 +518,10 @@ double QMatr::max(int bi,int li)
     }
     return max.max(bi,li);
 }
-
+*/
 void QMatr::swap_r(int n, int m)
 {
-    double b;
+    complex<double> b;
     for (int j=0; j<dim; j++)
     {
         b=Xi[n][j];
@@ -489,7 +531,7 @@ void QMatr::swap_r(int n, int m)
 }
 void QMatr::swap_c(int n, int m)
 {
-    double b;
+    complex<double> b;
     for (int i=0; i<dim; i++)
     {
         b=Xi[i][n];
@@ -502,7 +544,7 @@ void QMatr::nne(int n)
 {
     for (int j=n; j<dim; j++)
     {
-        if(Xi[n][j]!=0)
+        if(Xi[n][j].real()!=0)
         {
             swap_c(n,j);
             break;
@@ -516,19 +558,19 @@ void QMatr::funcexp ()
     for(int k = 0; k < dim; k++)
         for(int j = 0; j < dim; j++)
         {
-            Xi[k][j] = exp((2*PI*k*j*i)/dim);
+            Xi[k][j] = exp((2*PI*k*j)/dim)*exp(i);
         }
 }
 
 void GaussSol (QMatr &A, QVect &X, QVect &B)
 {
-    double h=0;
+    complex<double> h=0;
     QMatr A1(A);
     QVect B1(B);
     for (int k=1; k<=A1.dim; k++)
     {
         A1.nne(k-1);
-        if(A1.Xi[k-1][k-1]!=0)
+        if(A1.Xi[k-1][k-1].real()!=0)
         {
             for (int i=k; i<A1.dim; i++)
             {
@@ -542,10 +584,10 @@ void GaussSol (QMatr &A, QVect &X, QVect &B)
             }
         }
         else
-            {
-                cout << "nednorod resh";
-                break;
-            }
+        {
+            cout << "nednorod resh";
+            break;
+        }
     }
     for (int i=A1.dim-1; i>=0; i--)
     {

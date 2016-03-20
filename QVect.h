@@ -9,7 +9,7 @@ class QMatr;
 class QVect
 {
     int dim;
-    complex<double>*Xi;
+    complex<double> *Xi;
     public:
     friend class QMatr;
     QVect();

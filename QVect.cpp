@@ -2,6 +2,7 @@
 #include"qmatr.h"
 #include<iostream>
 #include<cmath>
+#include<complex>
 using namespace std;
 
 QVect::QVect()
@@ -20,85 +21,168 @@ QVect::QVect(int n)
 
 void QVect::fillen()
 {
-    for(int i=0;i<dim;i++){Xi[i]=i+1;}
+    for(int i=0;i<dim;i++){
+            Xi[i]=i+1;
+    }
 }
 
 void QVect::input(int dim)
-{cout<<"razmernost' vectora = "<<dim<<endl;
-    Xi=new double [dim];
+{
+    cout<<"razmernost' vectora = "<<dim<<endl;
+    Xi=new complex<double> [dim];
     cout<<"Vvedite koordinati vektora"<<endl;
-    for(int i=0;i<dim;i++)cin>>Xi[i];}
+    for(int i=0;i<dim;i++)
+        cin>>Xi[i];
+}
 
 void QVect::Show(void)
-{cout <<"(";for(int i=0;i<dim;i++){if(i==dim-1)cout<<Xi[i].real(); else cout<<Xi[i].real()<<",";} cout<<")"<<endl;}
+{
+    cout <<"(";
+    for(int i=0;i<dim;i++)
+    {
+        if(i==dim-1)
+            cout<<Xi[i].real();
+        else cout<<Xi[i].real()<<",";
+    }
+    cout<<")"<<endl;
+}
 
 QVect operator+(const QVect& a1,QVect a2)
-{QVect a3;
- if(a1.dim == a2.dim)for(int i=0;i<a1.dim;i++){a3.Xi[i]=a1.Xi[i]+a2.Xi[i];}
-     else cout<<"Error";
- return a3;}
+{
+    QVect a3;
+    if(a1.dim == a2.dim)
+        for(int i=0;i<a1.dim;i++)
+        {
+            a3.Xi[i]=a1.Xi[i]+a2.Xi[i];
+        }
+    else cout<<"Error";
+    return a3;
+ }
 
 QVect& QVect:: operator +=(QVect a)
-{if(dim == a.dim)for(int i=0;i<a.dim;i++){Xi[i]+=a.Xi[i];}
-     else cout<<"Error";
- return *this;}
+{
+    if(dim == a.dim)
+        for(int i=0;i<a.dim;i++)
+        {
+            Xi[i]+=a.Xi[i];
+        }
+    else cout<<"Error";
+    return *this;
+}
 
 QVect operator -(const QVect& a1,QVect a2)
-{QVect a3;
- if(a1.dim == a2.dim)for(int i=0;i<a1.dim;i++){a3.Xi[i]=a1.Xi[i]-a2.Xi[i];}
-     else cout<<"Error";
- return a3;}
+{
+    QVect a3;
+    if(a1.dim == a2.dim)
+        for(int i=0;i<a1.dim;i++)
+        {
+            a3.Xi[i]=a1.Xi[i]-a2.Xi[i];
+        }
+    else cout<<"Error";
+    return a3;
+}
 
 QVect& QVect:: operator -=(QVect a)
-{if(dim == a.dim)for(int i=0;i<a.dim;i++){Xi[i]-=a.Xi[i];}
-     else cout<<"Error";
- return *this;}
+{
+    if(dim == a.dim)
+        for(int i=0;i<a.dim;i++)
+        {
+            Xi[i]-=a.Xi[i];
+        }
+    else cout<<"Error";
+    return *this;
+}
 
 QVect& QVect:: operator -()
-{for(int i=0;i<dim;i++)Xi[i]=-1*Xi[i];
-return *this;}
+{
+    for(int i=0;i<dim;i++)
+        Xi[i]=-1*Xi[i];
+    return *this;
+}
 
 QVect operator *(double X, const QVect&  a)
-{QVect b; b.dim=a.dim; for(int i=0;i<a.dim;i++) {b.Xi[i]=a.Xi[i]; b.Xi[i]*=X;}
-return b;}
+{
+    QVect b;
+    b.dim=a.dim;
+    for(int i=0;i<a.dim;i++)
+        {
+            b.Xi[i]=a.Xi[i];
+            b.Xi[i]*=X;
+        }
+    return b;
+}
 
 QVect& QVect:: operator *=(double X)
-{for(int i=0;i<dim;i++) Xi[i]*=X;
-    return *this;}
+{
+    for(int i=0;i<dim;i++)
+        Xi[i]*=X;
+    return *this;
+}
 
 QVect& QVect:: operator /=(double X)
-{for(int i=0;i<dim;i++) Xi[i]/=X;
-    return *this;}
+{
+    for(int i=0;i<dim;i++)
+        Xi[i]/=X;
+    return *this;
+}
 
 bool operator == (const QVect& a1,const QVect& a2)
 {
-    if(a1.dim==a2.dim) for(int i=0;i<a1.dim;i++) {return a1.Xi[i]==a2.Xi[i];}
-       else return cout<<"Error";}
+    if(a1.dim==a2.dim)
+        for(int i=0;i<a1.dim;i++)
+        {
+            return a1.Xi[i]==a2.Xi[i];
+        }
+    else return cout<<"Error";
+}
 
 bool operator != (const QVect& a1,const QVect& a2)
 {
-    if(a1.dim==a2.dim) for(int i=0;i<a1.dim;i++) {return a1.Xi[i]!=a2.Xi[i];}
-       else return cout<<"Error";}
+    if(a1.dim==a2.dim)
+        for(int i=0;i<a1.dim;i++)
+        {
+            return a1.Xi[i]!=a2.Xi[i];
+        }
+    else return cout<<"Error";
+}
 
 QVect& QVect :: operator=(const QVect& a)
-{if(dim==a.dim) for(int i=0;i<a.dim;i++)Xi[i]=a.Xi[i];
+{
+    if(dim==a.dim)
+        for(int i=0;i<a.dim;i++)
+            Xi[i]=a.Xi[i];
     else cout<<"Error";
-  return *this;}
+    return *this;
+}
 
 QVect& QVect :: operator=(const double* a)
-{ for(int i=0;i<dim;i++) Xi[i]=a[i];
-  return *this;}
+{
+    for(int i=0;i<dim;i++)
+        Xi[i]=a[i];
+    return *this;
+}
 
 istream &operator>>(istream &h,QVect& a)
-{cout<<"razmernost' vectora = "<<a.dim<<endl;
-    a.Xi=new double [a.dim];
+{
+    cout<<"razmernost' vectora = "<<a.dim<<endl;
+    a.Xi=new complex<double> [a.dim];
     cout<<"Vvedite koordinati vektora"<<endl;
-    for(int i=0;i<a.dim;i++)cin>>a.Xi[i];
-    return h;}
+    for(int i=0;i<a.dim;i++)
+        cin>>a.Xi[i];
+    return h;
+}
 
 ostream &operator<<(ostream &h,QVect& a)
-{cout <<"(";for(int i=0;i<a.dim;i++){if(i==a.dim-1)cout<<a.Xi[i]; else cout<<a.Xi[i]<<",";} cout<<")"<<endl;
-    return h;}
+{
+    cout <<"(";
+    for(int i=0;i<a.dim;i++)
+    {
+        if(i==a.dim-1) cout<<a.Xi[i];
+        else cout<<a.Xi[i]<<",";
+    }
+    cout<<")"<<endl;
+    return h;
+}
 
 double& QVect :: operator[](int i)
 {
@@ -106,15 +190,23 @@ double& QVect :: operator[](int i)
 }
 
 double operator ,(QVect a1, QVect a2)
-{double skol=0;
- if(a1.dim == a2.dim)for(int i=0;i<a1.dim;i++){skol+=a1.Xi[i]*a2.Xi[i];}
-     else cout<<"Error";
- return skol;}
+{
+    double skol=0;
+    if(a1.dim == a2.dim)
+        for(int i=0;i<a1.dim;i++)
+        {
+            skol+=a1.Xi[i].real()*a2.Xi[i].real();
+        }
+    else cout<<"Error";
+    return skol;
+}
 
 double QVect::modul(void)
-{double summ=0;
+{
+    double summ=0;
     for(int i=0;i<dim;i++) summ+=pow(Xi[i],2);
-    return sqrt(summ);}
+    return sqrt(summ);
+}
 
 double QVect::max(void)
 {
@@ -124,14 +216,24 @@ double QVect::max(void)
 }
 
 double QVect::norm(void)
-{double summ=0;
+{
+    double summ=0;
     for(int i=0;i<dim;i++) summ+=fabs(Xi[i]);
-    return summ;}
+    return summ;
+}
 
 void QVect::Izmen(int n)
 {
-    if(n>dim) {Xi=new double [n]; for(int i=0;i<n;i++) Xi[i]=1; dim=n;}
-    else {if(n<dim) dim=n;}
+    if(n>dim)
+    {
+        Xi=new complex<double> [n];
+        for(int i=0;i<n;i++) Xi[i]=1;
+        dim=n;
+    }
+    else {
+            if(n<dim)
+                dim=n;
+        }
 }
 
 int QVect:: Dim()
