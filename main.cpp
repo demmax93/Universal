@@ -1,49 +1,33 @@
-#include"iostream"
-#include"QVect.h"
-#include"qmatr.h"
+#include "iostream"
+#include "QVect.h"
+#include "qmatr.h"
+#include "cmath"
+#include "complex"
 
 using namespace std;
 
 int main()
 {
     int n = 5;
-    QMatr b(n);
-    QVect c(n*n);
+    QMatr e(n);
+    QVect y(n);
+    QVect c(n);
 
-    b.fillen();
+    e.funcexp();
+    cout<<e<<endl;
 
-    cout<<b<<endl;
+    y.fillen();
 
-    c=b.methodCycle();
+    cout<<y<<endl;
 
-    cout<<c<<endl;
-
-    /*QMatr d(n);
-
-    d=c.methodCycle();
-
-    cout<<d;*/
-    cout<<"min c : = "<<c.min(0,n*n-1)<<endl;
-
-    cout<<"max c : = "<<c.max(0,n*n-1)<<endl;
-
-    c.sort(0,n*n-1);
+    GaussSol(e,c,y);
 
     cout<<c<<endl;
 
-    b=c.methodCycle();
+    complex<double> i (0,1);
 
-    cout<<b<<endl;
+    cout<<exp(i);
 
-    cout<<"min b : ="<<b.min(0,n-1)<<endl;
-
-    cout<<"max b : ="<<b.max(0,n-1)<<endl;
-
-    b.sort(0,n-1);
-
-    cout<<b<<endl;
-
-    cout<<obr(b);
 
     return 0;
 }

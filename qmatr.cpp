@@ -2,25 +2,41 @@
 #include<cmath>
 #include"qmatr.h"
 #include"QVect.h"
+#include"complex"
+
 using namespace std;
 
 const double PI = 3.1415926536;
 
 QMatr::QMatr()
-{dim=5; Xi=new double*[dim];
-    for(int i=0;i<dim;i++) Xi[i]=new double [dim];
- for(int i=0;i<dim;i++)
-   for(int j=0;j<dim;j++){if(i==j){Xi[i][i]=1;}else{Xi[i][j]=0;}}
+{
+    dim=5;
+    Xi=new complex<double>*[dim];
+    for(int i=0;i<dim;i++) Xi[i]=new complex<double> [dim];
+    for(int i=0;i<dim;i++)
+        for(int j=0;j<dim;j++)
+        {
+            if(i==j)
+            {
+                Xi[i][i]=1;
+            }
+            else
+            {
+                Xi[i][j]=0;
+            }
+        }
 }
 
 QMatr::QMatr(int n)
 {
     dim=n;
-    Xi=new double*[dim];
-    for(int i=0;i<dim;i++) Xi[i]=new double [dim];
+    Xi=new complex<double>*[dim];
+    for(int i=0;i<dim;i++) Xi[i]=new complex<double> [dim];
     for(int i=0;i<dim;i++)
         for(int j=0;j<dim;j++)
-            {Xi[i][j]=0;}
+            {
+                Xi[i][j]=0;
+            }
 }
 
 void QMatr::fillen()
@@ -31,7 +47,7 @@ void QMatr::fillen()
 
 }
 
-void QMatr::fillElement(double b,int i,int j)
+void QMatr::fillElement(complex<double> b,int i,int j)
 {
     Xi[i][j]=b;
 }
@@ -40,7 +56,7 @@ void QMatr :: show(void)
 {
     for(int i=0;i<dim;i++,cout<<endl)
         for(int j=0;j<dim;j++)
-        {cout<<Xi[i][j]<<"\t";}
+        {cout<<Xi[i][j].real()<<"\t";}
 }
 
 istream& operator>>(istream &h,const QMatr& a)
@@ -55,7 +71,7 @@ istream& operator>>(istream &h,const QMatr& a)
 ostream& operator<<(ostream &h,const QMatr& a)
 {for(int i=0;i<a.dim;i++,cout<<endl)
         for(int j=0;j<a.dim;j++)
-        {cout<<a.Xi[i][j]<<"\t";}
+        {cout<<a.Xi[i][j].real()<<"\t";}
  return h;}
 
 QMatr operator+(const QMatr& a1,QMatr a2)
@@ -95,10 +111,10 @@ QMatr& QMatr:: operator -=(QMatr a)
 QMatr& QMatr:: operator -()
 {for(int i=0;i<dim;i++)
      for(int j=0;j<dim;j++)
-         Xi[i][j]=-1*Xi[i][j];
+        // Xi[i][j]=-1*Xi[i][j];
 return *this;}
 
-QMatr operator *(double X, const QMatr&  a)
+QMatr operator *(complex<double> X, const QMatr&  a)
 {QMatr b; b.dim=a.dim;
     for(int i=0;i<a.dim;i++)
         for(int j=0;j<a.dim;j++)
@@ -127,10 +143,10 @@ QMatr& QMatr:: operator /=(double X)
             Xi[i][j]/=X;
     return *this;}
 
-double* QMatr::operator[](int k)
+complex<double>* QMatr::operator[](int k)
 {
-  double *b;
-  b=new double [dim];
+  complex<double> *b;
+  b=new complex<double> [dim];
       for(int j=0;j<dim;j++)
           b[j]=Xi[k][j];
   return b;
@@ -149,19 +165,19 @@ QMatr& QMatr :: operator=(const QMatr& a)
     return *this;
 }
 
-double* QMatr::col(int k)
+complex<double>* QMatr::col(int k)
 {
-    double *b;
-    b=new double [dim];
+    complex<double> *b;
+    b=new complex<double> [dim];
         for(int j=0;j<dim;j++)
             b[j]=Xi[j][k];
  return b;
 }
 
-double* QMatr::diag()
+complex<double>* QMatr::diag()
 {
-    double *b;
-    b=new double [dim];
+    complex<double> *b;
+    b=new complex<double> [dim];
         for(int j=0;j<dim;j++)
             b[j]=Xi[j][j];
  return b;
@@ -179,7 +195,7 @@ void QMatr::transponir(int n)
 {
     for (int j=n; j<dim; j++)
     {
-        if(Xi[n][j]!=0)
+        if(Xi[n][j].real()!=0)
         {
             swap_c(n,j);
             break;
@@ -200,14 +216,14 @@ QMatr QMatr::minor(int n, int m)
     return b;
 }
 
-double det(QMatr &A)
+complex<double> det(QMatr &A)
 {
-    double h=0;
+    complex<double> h=0;
     QMatr B(A);
     for (int k=1; k<=B.dim; k++)
     {
         B.transponir(k-1);
-        if(B.Xi[k-1][k-1]!=0)
+        if(B.Xi[k-1][k-1].real()!=0)
         {
             for (int i=k; i<B.dim; i++)
             {
@@ -247,8 +263,8 @@ QMatr obr(QMatr &A)
     QMatr B(A.dim);
     QMatr C(A.dim);
     C.transonir(A);
-    double d=det(A);
-    if (d==0)
+    complex<double> d=det(A);
+    if (d.real()==0)
     {
         cout << "ne syw obrat!!" << endl;
         return 0;
@@ -492,6 +508,16 @@ void QMatr::nne(int n)
             break;
         }
     }
+}
+
+void QMatr::funcexp ()
+{
+    complex<double> i (0,1);
+    for(int k = 0; k < dim; k++)
+        for(int j = 0; j < dim; j++)
+        {
+            Xi[k][j] = exp((2*PI*k*j*i)/dim);
+        }
 }
 
 void GaussSol (QMatr &A, QVect &X, QVect &B)

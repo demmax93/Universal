@@ -1,6 +1,7 @@
 #ifndef VEKTOR_H
 #define VEKTOR_H
 #include<iostream>
+#include<complex>
 using namespace std;
 
 class QMatr;
@@ -8,7 +9,7 @@ class QMatr;
 class QVect
 {
     int dim;
-    double*Xi;
+    complex<double>*Xi;
     public:
     friend class QMatr;
     QVect();
@@ -19,7 +20,7 @@ class QVect
     friend QVect operator -(const QVect&,QVect);
     QVect& operator-=(QVect);
     QVect& operator-();
-    friend QVect operator*(double, const QVect&);
+    friend QVect operator*(complex<double>, const QVect&);
     QVect& operator*=(double);
     QVect& operator/=(double);
     friend bool operator==(const QVect&, const QVect&);
@@ -27,7 +28,7 @@ class QVect
     QVect& operator=(const QVect&);
     QVect& operator=(const double*);
     double& operator[](int);
-    friend double operator,(QVect, QVect);
+    friend complex<double> operator,(QVect, QVect);
     friend istream &operator>>(istream &,QVect &);
     friend ostream &operator<<(ostream &,QVect &);
     double modul(void);

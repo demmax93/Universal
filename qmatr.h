@@ -1,6 +1,7 @@
 #ifndef QMATR_H
 #define QMATR_H
 #include <iostream>
+#include <complex>
 using namespace std;
 
 class QVect;
@@ -8,27 +9,27 @@ class QVect;
 class QMatr
 {
     int dim;
-    double **Xi;
+    complex<double> **Xi;
     public:
     friend class QVect;
     QMatr();
     QMatr(int);
     void fillen();
-    void fillElement(double,int,int);
+    void fillElement(complex<double>,int,int);
     friend QMatr operator +(const QMatr&,QMatr);
     QMatr& operator+=(QMatr);
     friend QMatr operator -(const QMatr&,QMatr);
     QMatr& operator-=(QMatr);
     QMatr& operator-();
-    friend QMatr operator*(double, const QMatr&);
+    friend QMatr operator*(complex<double>, const QMatr&);
     friend QMatr operator*(const QMatr&, const QMatr&);
-    double* operator[](int);
-    double* col(int);
-    double* diag();
+    complex<double>* operator[](int);
+    complex<double>* col(int);
+    complex<double>* diag();
     QMatr transonir(QMatr);
     void transponir(int);
     QMatr minor(int,int);
-    friend double det(QMatr &);
+    friend complex<double> det(QMatr &);
     friend QMatr obr(QMatr &);
     friend QMatr Adj(QMatr &);
     QMatr& operator=(const QMatr&);
@@ -37,8 +38,8 @@ class QMatr
     void show(void);
     void fastsort(int,int,int);
     void sort(int,int);
-    double min(int,int);
-    double max(int,int);
+    complex<double> min(int,int);
+    complex<double> max(int,int);
     friend istream& operator>>(istream &,const QMatr &);
     friend ostream& operator<<(ostream &,const QMatr &);
     QVect methodStrok();
@@ -48,6 +49,7 @@ class QMatr
     void swap_r(int , int);//меняет столбцы с указанными номера местами
     void swap_c(int , int);//меняет строки с указанными номераи местами
     void nne(int);//ещё одно транспонирование
+    void funcexp();
     friend void GaussSol(QMatr &, QVect &, QVect &);//метод гауса
     void getLU(QMatr &,QMatr &);//ЛУ разложение
     QMatr proisv(QMatr&,QMatr&);//функция умножения матрицу на матрицу

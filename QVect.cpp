@@ -7,14 +7,14 @@ using namespace std;
 QVect::QVect()
 {
     dim=5;
-    Xi=new double [dim];
+    Xi=new complex<double> [dim];
     for(int i=0;i<dim;i++) {Xi[i]=1;}
 }
 
 QVect::QVect(int n)
 {
     dim=n;
-    Xi=new double [dim];
+    Xi=new complex<double> [dim];
     for(int i=0;i<dim;i++){Xi[i]=0;}
 }
 
@@ -30,13 +30,14 @@ void QVect::input(int dim)
     for(int i=0;i<dim;i++)cin>>Xi[i];}
 
 void QVect::Show(void)
-{cout <<"(";for(int i=0;i<dim;i++){if(i==dim-1)cout<<Xi[i]; else cout<<Xi[i]<<",";} cout<<")"<<endl;}
+{cout <<"(";for(int i=0;i<dim;i++){if(i==dim-1)cout<<Xi[i].real(); else cout<<Xi[i].real()<<",";} cout<<")"<<endl;}
 
 QVect operator+(const QVect& a1,QVect a2)
 {QVect a3;
  if(a1.dim == a2.dim)for(int i=0;i<a1.dim;i++){a3.Xi[i]=a1.Xi[i]+a2.Xi[i];}
      else cout<<"Error";
  return a3;}
+
 QVect& QVect:: operator +=(QVect a)
 {if(dim == a.dim)for(int i=0;i<a.dim;i++){Xi[i]+=a.Xi[i];}
      else cout<<"Error";
