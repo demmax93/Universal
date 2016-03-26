@@ -75,7 +75,7 @@ ostream& operator<<(ostream &h,const QMatr& a)
     for(int i=0;i<a.dim;i++,cout<<endl)
         for(int j=0;j<a.dim;j++)
         {
-            cout<<a.Xi[i][j].real()<<" + i"<<a.Xi[i][j].imag();
+            cout<<a.Xi[i][j]<<"\t";
         }
     return h;
 }
@@ -167,7 +167,7 @@ QMatr operator *(const QMatr& a1, const QMatr& a2)
     return b;
 }
 
-QMatr& QMatr:: operator *=(double X)
+QMatr& QMatr:: operator *=(complex<double> X)
 {
     for(int i=0;i<dim;i++)
         for(int j=0;j<dim;j++)
@@ -175,7 +175,7 @@ QMatr& QMatr:: operator *=(double X)
     return *this;
 }
 
-QMatr& QMatr:: operator /=(double X)
+QMatr& QMatr:: operator /=(complex<double> X)
 {
     for(int i=0;i<dim;i++)
         for(int j=0;j<dim;j++)
@@ -630,11 +630,11 @@ QMatr QMatr:: proisv(QMatr&L,QMatr&U)
     return *this;
 }
 
-void QMatr:: Jacobi (double eps, QVect F, QVect X)
+/*void QMatr:: Jacobi (complex<double> eps, QVect F, QVect X)
 {
         int N=dim;
         QVect TempX;
-        double norm; // норма, определяемая как наибольшая разность компонент столбца иксов соседних итераций.
+        complex<double> norm; // норма, определяемая как наибольшая разность компонент столбца иксов соседних итераций.
         do {
                 for (int i = 0; i < N; i++) {
                         TempX[i] =- F[i];
@@ -675,7 +675,7 @@ QVect QMatr:: wrachenie(QMatr coefficients, double precision ) {
     int i, j, k;
     int maxI, maxJ;
     QVect lamda(3);
-    double max, fi;
+    complex<double> max, fi;
     QMatr solution(coefficients.dim);
     QMatr matricaPoworota(coefficients.dim), temp(coefficients.dim);
     double fault = 0.0;
@@ -772,7 +772,7 @@ QVect QMatr:: wrachenie(QMatr coefficients, double precision ) {
             lamda[i]=coefficients[i][i];
     }
     return lamda;
-}
+}*/
 
 
 

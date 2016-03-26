@@ -33,8 +33,8 @@ class QMatr
     friend QMatr obr(QMatr &);
     friend QMatr Adj(QMatr &);
     QMatr& operator=(const QMatr&);
-    QMatr& operator*=(double);
-    QMatr& operator/=(double);
+    QMatr& operator*=(complex<double>);
+    QMatr& operator/=(complex<double>);
     void show(void);
     void fastsort(int,int,int);
     void sort(int,int);
@@ -53,9 +53,9 @@ class QMatr
     friend void GaussSol(QMatr &, QVect &, QVect &);//метод гауса
     void getLU(QMatr &,QMatr &);//Ћ” разложение
     QMatr proisv(QMatr&,QMatr&);//функци€ умножени€ матрицу на матрицу
-    void Jacobi (double, QVect, QVect);//метод простоых итераций
+    void Jacobi (complex<double>, QVect, QVect);//метод простоых итераций
     bool isSimmetrial(QMatr);//функци€ провер€ющаю матрицу на симметричность
-    QVect wrachenie(QMatr,double);//ћетод якоби вращени€
+    QVect wrachenie(QMatr,complex<double>);//ћетод якоби вращени€
 };
 
 #endif // QMATR_H

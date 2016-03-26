@@ -96,11 +96,11 @@ QVect& QVect:: operator -=(QVect a)
 QVect& QVect:: operator -()
 {
     for(int i=0;i<dim;i++)
-        Xi[i]=-1*Xi[i];
+        Xi[i]-=Xi[i];
     return *this;
 }
 
-QVect operator *(double X, const QVect&  a)
+QVect operator *(complex<double> X, const QVect&  a)
 {
     QVect b;
     b.dim=a.dim;
@@ -112,14 +112,14 @@ QVect operator *(double X, const QVect&  a)
     return b;
 }
 
-QVect& QVect:: operator *=(double X)
+QVect& QVect:: operator *=(complex<double> X)
 {
     for(int i=0;i<dim;i++)
         Xi[i]*=X;
     return *this;
 }
 
-QVect& QVect:: operator /=(double X)
+QVect& QVect:: operator /=(complex<double> X)
 {
     for(int i=0;i<dim;i++)
         Xi[i]/=X;
@@ -155,7 +155,7 @@ QVect& QVect :: operator=(const QVect& a)
     return *this;
 }
 
-QVect& QVect :: operator=(const double* a)
+QVect& QVect :: operator=(const complex<double>* a)
 {
     for(int i=0;i<dim;i++)
         Xi[i]=a[i];
@@ -184,14 +184,14 @@ ostream &operator<<(ostream &h,QVect& a)
     return h;
 }
 
-double& QVect :: operator[](int i)
+complex<double>& QVect :: operator[](int i)
 {
     return Xi[i];
 }
 
-double operator ,(QVect a1, QVect a2)
+complex<double> operator ,(QVect a1, QVect a2)
 {
-    double skol=0;
+    complex<double> skol=0;
     if(a1.dim == a2.dim)
         for(int i=0;i<a1.dim;i++)
         {
@@ -201,24 +201,24 @@ double operator ,(QVect a1, QVect a2)
     return skol;
 }
 
-double QVect::modul(void)
+complex<double> QVect::modul(void)
 {
-    double summ=0;
+    complex<double> summ=0;
     for(int i=0;i<dim;i++) summ+=pow(Xi[i],2);
     return sqrt(summ);
 }
 
-double QVect::max(void)
+complex<double> QVect::max(void)
 {
-    double max=fabs(Xi[0]);
-    for(int i=1;i<dim;i++) if(max<=fabs(Xi[i])) max=fabs(Xi[i]);
+    complex<double> max=abs(Xi[0]);
+    for(int i=1;i<dim;i++) if(max.real()<=abs(Xi[i].real())) max=abs(Xi[i]);
     return max;
 }
 
-double QVect::norm(void)
+complex<double> QVect::norm(void)
 {
-    double summ=0;
-    for(int i=0;i<dim;i++) summ+=fabs(Xi[i]);
+    complex<double> summ=0;
+    for(int i=0;i<dim;i++) summ+=abs(Xi[i]);
     return summ;
 }
 
@@ -377,10 +377,10 @@ QMatr QVect::methodCycle()
 void QVect::sort(int bi,int li)
 {
     int i,j,mode;
-    double temp;
+    complex<double> temp;
     if (bi>=li) return;
     for (i=bi, j=li, mode=1; i < j; mode >0 ? j-- : i++)
-    if (Xi[i] > Xi[j])
+    if (Xi[i].real() > Xi[j].real())
     {
         temp = Xi[i];
         Xi[i] = Xi[j];
@@ -391,16 +391,16 @@ void QVect::sort(int bi,int li)
     QVect::sort(i+1,li);
 }
 
-double QVect::min(int bi,int li)
+complex<double> QVect::min(int bi,int li)
 {
-    double lmin,rmin,temp;
+    complex<double> lmin,rmin,temp;
     int centr;
 
     if(bi==li) return Xi[bi];
 
     if((bi-li)==1 || (li-bi)==1)
     {
-        return Xi[bi] < Xi[li] ? Xi[bi] : Xi[li];
+        return Xi[bi].real() < Xi[li].real() ? Xi[bi] : Xi[li];
     }
 
     centr = (bi + li)/2;
@@ -408,19 +408,19 @@ double QVect::min(int bi,int li)
     lmin = QVect::min(bi,centr);
     rmin = QVect::min(centr,li);
 
-    return lmin < rmin ? lmin : rmin;
+    return lmin.real() < rmin.real() ? lmin : rmin;
 }
 
-double QVect::max(int bi,int li)
+complex<double> QVect::max(int bi,int li)
 {
-    double lmax,rmax;
+    complex<double> lmax,rmax;
     int centr;
 
     if(bi==li) return Xi[bi];
 
     if((bi-li)==1 || (li-bi)==1)
     {
-        return Xi[bi] > Xi[li] ? Xi[bi] : Xi[li];
+        return Xi[bi].real() > Xi[li].real() ? Xi[bi] : Xi[li];
     }
 
     centr = (bi + li)/2;
@@ -428,5 +428,5 @@ double QVect::max(int bi,int li)
     lmax = QVect::max(bi,centr);
     rmax = QVect::max(centr,li);
 
-    return lmax > rmax ? lmax : rmax;
+    return lmax.real() > rmax.real() ? lmax : rmax;
 }

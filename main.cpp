@@ -24,10 +24,5 @@ int main()
 
     cout<<c<<endl;
 
-    complex<double> i (0,1);
-
-    cout<<exp(i);
-
-
     return 0;
 }
