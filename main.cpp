@@ -24,5 +24,11 @@ int main()
 
     cout<<c<<endl;
 
+    QVect d(n);
+
+    d = e*c;
+
+    cout<<d<<endl;
+
     return 0;
 }

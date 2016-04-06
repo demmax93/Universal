@@ -39,6 +39,11 @@ QMatr::QMatr(int n)
             }
 }
 
+int QMatr::Dim()
+{
+    return dim;
+}
+
 void QMatr::fillen()
 {
     for(int i=0,k=1;i<dim;i++)
@@ -165,6 +170,21 @@ QMatr operator *(const QMatr& a1, const QMatr& a2)
     }
     else cout<<"Error";
     return b;
+}
+
+QVect operator *(const QMatr& a, const QVect& b)
+{
+    QVect c(b.dim);
+    if(a.dim == b.dim){
+        for(int i=0;i<b.dim;i++)
+        {
+            for(int j=0;j<b.dim;j++)
+                c.Xi[i]+=a.Xi[i][j]*b.Xi[j];
+        }
+
+    }
+    else cout<<"Error";
+    return c;
 }
 
 QMatr& QMatr:: operator *=(complex<double> X)

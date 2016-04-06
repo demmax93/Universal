@@ -8,13 +8,14 @@ class QMatr;
 
 class QVect
 {
+    public:
     int dim;
     complex<double> *Xi;
-    public:
     friend class QMatr;
     QVect();
     QVect(int);
     void fillen();
+    void fillenElement(int, complex<double>);
     friend QVect operator +(const QVect&,QVect);
     QVect& operator+=(QVect);
     friend QVect operator -(const QVect&,QVect);

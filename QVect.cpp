@@ -26,6 +26,11 @@ void QVect::fillen()
     }
 }
 
+void QVect::fillenElement(int i, complex<double> x)
+{
+    Xi[i] = x;
+}
+
 void QVect::input(int dim)
 {
     cout<<"razmernost' vectora = "<<dim<<endl;
@@ -236,7 +241,7 @@ void QVect::Izmen(int n)
         }
 }
 
-int QVect:: Dim()
+int QVect::Dim()
 {
     return dim;
 }
