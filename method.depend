@@ -1,0 +1,30 @@
+# depslib dependency file v1.0
+1459973311 source:c:\workspace\universal\method\method\qvect.cpp
+	"QVect.h"
+	"qmatr.h"
+	<iostream>
+	<cmath>
+	<complex>
+
+1459973440 c:\workspace\universal\method\method\qvect.h
+	<iostream>
+	<complex>
+
+1459973831 c:\workspace\universal\method\method\qmatr.h
+	<iostream>
+	<complex>
+
+1459973970 source:c:\workspace\universal\method\method\main.cpp
+	"iostream"
+	"QVect.h"
+	"qmatr.h"
+	"cmath"
+	"complex"
+
+1459973979 source:c:\workspace\universal\method\method\qmatr.cpp
+	<iostream>
+	<cmath>
+	"qmatr.h"
+	"QVect.h"
+	"complex"
+

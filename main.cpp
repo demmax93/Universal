@@ -1,34 +1,15 @@
+#include "mainwindow.h"
+#include <QApplication>
 #include "iostream"
-#include "QVect.h"
-#include "qmatr.h"
-#include "cmath"
-#include "complex"
+#include <stdlib.h>
+#include "math.h"
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
-    int n = 5;
-    QMatr e(n);
-    QVect y(n);
-    QVect c(n);
-
-    e.funcexp();
-    cout<<e<<endl;
-
-    y.fillen();
-
-    cout<<y<<endl;
-
-    GaussSol(e,c,y);
-
-    cout<<c<<endl;
-
-    QVect d(n);
-
-    d = e*c;
-
-    cout<<d<<endl;
-
-    return 0;
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+    return a.exec();
 }
