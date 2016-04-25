@@ -9,12 +9,12 @@ QXoY::QXoY(QLabel *lbl){
     lblOut  = lbl;
     Rect    = lblOut->rect();
     Pxmp    = new QPixmap(lblOut->size());
-    FMaxX  = 6.0;
-    FMaxY  = 6.0;
-    FMinX  = -1.0;
-    FMinY  = -1.0;
-    FdX    = 0.5;
-    FdY    = 0.5;
+    FMaxX  = 10.0;
+    FMaxY  = 10.0;
+    FMinX  = -10.0;
+    FMinY  = -10.0;
+    FdX    = 1.0;
+    FdY    = 1.0;
     FOX_on = 1;
     FOY_on = 1;
     InitXoY();
@@ -303,14 +303,14 @@ void QXoY::ShowFnmas(int N,int dim,double *x,double **y){
   lblOut->update();
 }
 
-void QXoY::ShowFnmas(int dim,double *x,double *y){
+void QXoY::ShowFnmas(int dim,double *x,double *y, Qt::GlobalColor color){
   QPainter pntr;
   pntr.begin(Pxmp);
   {
-      pntr.setPen(QPen(Qt::red, 2));
+      pntr.setPen(QPen(color, 2));
       for(int j=0;j<dim;j++)
       {
-          pntr.drawLine(XToScrn(x[j]),YToScrn(y[j]),XToScrn(x[j+1]),YToScrn(y[j+1]));
+          pntr.drawPoint(XToScrn(x[j]),YToScrn(y[j]));
       }
   };
   pntr.end();

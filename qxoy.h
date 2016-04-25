@@ -47,7 +47,7 @@ public:
    int      YToScrn(double Y);
    void     ShowFn(double(*Fn)(double));
    void     ShowFnmas(int,int,double*,double**);
-   void     ShowFnmas(int,double*,double*);
+   void     ShowFnmas(int,double*,double*, Qt::GlobalColor);
 };
 
 #endif // XOY_H

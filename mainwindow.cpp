@@ -31,9 +31,13 @@ void MainWindow::The_Slot(){//функция которая запускаетс
     e.funcexp();
 
     QString temp = 0;
+    complex<double> tempComp;
     for(int i = 0; i < n; i++){
         temp = ui->tableWidget->item(i, 0)->text();
-        y.fillenElement(i,temp.toDouble());
+        tempComp.real(temp.toDouble());
+        temp = ui->tableWidget->item(i, 1)->text();
+        tempComp.imag(temp.toDouble());
+        y.fillenElement(i,tempComp);
     }
 
     GaussSol(e,c,y);
@@ -45,23 +49,43 @@ void MainWindow::The_Slot(){//функция которая запускаетс
     for(int i = 0; i < n; i++){
         ptwi = new QTableWidgetItem(QString("%1").arg(d.Xi[i].real(), 0, 'f'));
         ui->tableWidget_2->setItem(i, 0, ptwi);
+        ptwi = new QTableWidgetItem(QString("%1").arg(d.Xi[i].imag(), 0, 'f'));
+        ui->tableWidget_2->setItem(i, 1, ptwi);
     }
-
-    double *x, *yn;
-    x = new double[n];
-    yn = new double[n];
-    for(int i = 0; i < n; i++){
-        x[i] = d.Xi[i].real();
-        yn[i] = d.Xi[i].imag();
-    }
-
-    XoY1->InitXoY();//создаем оси координат для графика
-    XoY1->ShowFnmas(n,x,yn);//рисуем сам график
 }
 
 void MainWindow::The_Slot2(){
     QString a = ui->lineEdit->text();
     int n = a.toInt();
     ui->tableWidget->setRowCount(n);
+}
+
+void MainWindow::The_Slot3(){
+
+    XoY1->InitXoY();//создаем оси координат для графика
+    QString a = ui->lineEdit->text();//списываем значение с формы на интерфейсе
+    int n = a.toInt();
+    QString temp = 0;
+    double *x, *yn;
+    x = new double[n];
+    yn = new double[n];
+
+    for(int i = 0; i < n; i++){
+        temp = ui->tableWidget->item(i, 0)->text();
+        x[i] = temp.toDouble();
+        temp = ui->tableWidget->item(i, 1)->text();
+        yn[i] = temp.toDouble();
+    }
+
+    XoY1->ShowFnmas(n,x,yn,Qt::red);//рисуем сам график
+
+    for(int i = 0; i < n; i++){
+        temp = ui->tableWidget_2->item(i, 0)->text();
+        x[i] = temp.toDouble();
+        temp = ui->tableWidget_2->item(i, 1)->text();
+        yn[i] = temp.toDouble();
+    }
+
+    XoY1->ShowFnmas(n,x,yn,Qt::black);//рисуем сам график
 }
 

@@ -181,7 +181,6 @@ QVect operator *(const QMatr& a, const QVect& b)
             for(int j=0;j<b.dim;j++)
                 c.Xi[i]+=a.Xi[i][j]*b.Xi[j];
         }
-
     }
     else cout<<"Error";
     return c;
@@ -584,13 +583,65 @@ void QMatr::funcexp ()
 
 void GaussSol (QMatr &A, QVect &X, QVect &B)
 {
-    complex<double> h=0;
     QMatr A1(A);
     QVect B1(B);
-    for (int k=1; k<=A1.dim; k++)
+    double max;
+    int k, index;
+    int n = A1.Dim();
+    const double eps = 0.00001;  // точность
+    k = 0;
+    while (k < n) {
+    // Поиск строки с максимальным a[i][k]
+      max = abs(A1.Xi[k][k]);
+      index = k;
+      for (int i = k + 1; i < n; i++) {
+        if (abs(A1.Xi[i][k]) > max) {
+          max = abs(A1.Xi[i][k]);
+          index = i;
+        }
+      }
+    // Перестановка строк
+      if (max < eps) {
+      // нет ненулевых диагональных элементов
+        cout << "Решение получить невозможно из-за нулевого столбца " ;
+        cout << index << " матрицы A" << endl;
+      }
+      for (int j = 0; j < n; j++) {
+        complex<double> temp = A1.Xi[k][j];
+        A1.Xi[k][j] = A1.Xi[index][j];
+        A1.Xi[index][j] = temp;
+      }
+      complex<double> temp = B1.Xi[k];
+      B1.Xi[k] = B1.Xi[index];
+      B1.Xi[index] = temp;
+    // Нормализация уравнений
+      for (int i = k; i < n; i++) {
+        complex<double> temp = A1.Xi[i][k];
+        if (abs(temp) < eps) continue; // для нулевого коэффициента пропустить
+        for (int j = 0; j < n; j++) {
+          A1.Xi[i][j] = A1.Xi[i][j] / temp;
+        }
+        B1.Xi[i] = B1.Xi[i] / temp;
+        if (i == k)  continue; // уравнение не вычитать само из себя
+        for (int j = 0; j < n; j++) {
+          A1.Xi[i][j] = A1.Xi[i][j] - A1.Xi[k][j];
+        }
+        B1.Xi[i] = B1.Xi[i] - B1.Xi[k];
+      }
+      k++;
+    }
+    // обратная подстановка
+    for (k = n - 1; k >= 0; k--) {
+      X.Xi[k] = B1.Xi[k];
+      for (int i = 0; i < k; i++) {
+        B1.Xi[i] = B1.Xi[i] - A1.Xi[i][k] * X.Xi[k];
+      }
+    }
+
+    /*for (int k=1; k<=A1.dim; k++)
     {
         A1.nne(k-1);
-        if(A1.Xi[k-1][k-1].real()!=0)
+        if(A1.Xi[k-1][k-1].real()!=0 && A1.Xi[k-1][k-1].imag()!=0)
         {
             for (int i=k; i<A1.dim; i++)
             {
@@ -615,7 +666,7 @@ void GaussSol (QMatr &A, QVect &X, QVect &B)
         for (int j=A1.dim-1; j>i; j--)
             h+=X[j]*A1.Xi[i][j];
         X[i]=(B1[i]-h)/A1.Xi[i][i];
-    }
+    }*/
 
 }
 void QMatr:: getLU(QMatr&L, QMatr& U)
