@@ -246,6 +246,15 @@ int QVect::Dim()
     return dim;
 }
 
+void QVect::reverse(){
+    complex<double> tmp;
+    for(int i=0;i<dim;i++){
+        tmp = Xi[i];
+        Xi[i] = Xi[dim - i -1];
+        Xi[dim - i -1] = tmp;
+    }
+}
+
 QMatr QVect::methodStrok()
 {
     int n = sqrt(dim);

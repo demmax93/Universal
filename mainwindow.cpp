@@ -42,14 +42,10 @@ void MainWindow::The_Slot(){//функция которая запускаетс
 
     GaussSol(e,c,y);
 
-    QVect d(n);
-
-    d = e*c;
-
     for(int i = 0; i < n; i++){
-        ptwi = new QTableWidgetItem(QString("%1").arg(d.Xi[i].real(), 0, 'f'));
+        ptwi = new QTableWidgetItem(QString("%1").arg(c.Xi[i].real(), 0, 'f'));
         ui->tableWidget_2->setItem(i, 0, ptwi);
-        ptwi = new QTableWidgetItem(QString("%1").arg(d.Xi[i].imag(), 0, 'f'));
+        ptwi = new QTableWidgetItem(QString("%1").arg(c.Xi[i].imag(), 0, 'f'));
         ui->tableWidget_2->setItem(i, 1, ptwi);
     }
 }
@@ -66,6 +62,17 @@ void MainWindow::The_Slot3(){
     QString a = ui->lineEdit->text();//списываем значение с формы на интерфейсе
     int n = a.toInt();
     QString temp = 0;
+    QMatr e(n);
+    QVect c(n);
+    QVect d(n);
+    e.funcexp();
+    for(int i = 0; i < n; i++){
+        temp = ui->tableWidget_2->item(i, 0)->text();
+        c[i].real(temp.toDouble());
+        temp = ui->tableWidget_2->item(i, 1)->text();
+        c[i].imag(temp.toDouble());
+    }
+    d = e*c;
     double *x, *yn;
     x = new double[n];
     yn = new double[n];
@@ -80,10 +87,8 @@ void MainWindow::The_Slot3(){
     XoY1->ShowFnmas(n,x,yn,Qt::red);//рисуем сам график
 
     for(int i = 0; i < n; i++){
-        temp = ui->tableWidget_2->item(i, 0)->text();
-        x[i] = temp.toDouble();
-        temp = ui->tableWidget_2->item(i, 1)->text();
-        yn[i] = temp.toDouble();
+        x[i] = d[i].real();
+        yn[i] = d[i].imag();
     }
 
     XoY1->ShowFnmas(n,x,yn,Qt::black);//рисуем сам график

@@ -40,6 +40,7 @@ class QVect
     void Izmen(int);
     int Dim();
     void sort(int,int);
+    void reverse();
     complex<double> min(int,int);
     complex<double> max(int,int);
     QMatr methodStrok();

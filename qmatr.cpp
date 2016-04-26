@@ -336,7 +336,7 @@ QMatr obr(QMatr &A)
     }
 }
 
-/*QVect QMatr::methodStrok()
+QVect QMatr::methodStrok()
 {
     QVect b(dim*dim);
 	int k = 0;
@@ -477,18 +477,19 @@ QVect QMatr::methodCycle()
 void QMatr::fastsort(int k,int bi,int li)
 {
     int i, j;
-    complex<double> temp, s;
+    complex<double> temp;
+    double s;
 
     i=bi;
     j=li;
-    s=fabs(Xi[k][(bi+li)/2]);
+    s=abs(Xi[k][(bi+li)/2]);
     do
     {
-            while(fabs(Xi[k][i]) < s)
+            while(abs(Xi[k][i]) < s)
             {
                 i++;
             }
-            while(fabs(Xi[k][j]) > s)
+            while(abs(Xi[k][j]) > s)
             {
                 j--;
             }
@@ -516,7 +517,7 @@ void QMatr::sort(int bi,int li)
     }
 }
 
-double QMatr::min(int bi,int li)
+complex<double> QMatr::min(int bi,int li)
 {
     QVect temp(dim), min(dim);
     for(int k=0;k<dim;k++)
@@ -527,7 +528,7 @@ double QMatr::min(int bi,int li)
     return min.min(bi,li);
 }
 
-double QMatr::max(int bi,int li)
+complex<double> QMatr::max(int bi,int li)
 {
     QVect temp(dim), max(dim);
     for(int k=0;k<dim;k++)
@@ -537,7 +538,7 @@ double QMatr::max(int bi,int li)
     }
     return max.max(bi,li);
 }
-*/
+
 void QMatr::swap_r(int n, int m)
 {
     complex<double> b;
@@ -563,7 +564,7 @@ void QMatr::nne(int n)
 {
     for (int j=n; j<dim; j++)
     {
-        if(Xi[n][j].real()!=0)
+        if(abs(Xi[n][j])!=0)
         {
             swap_c(n,j);
             break;
@@ -577,7 +578,7 @@ void QMatr::funcexp ()
     for(int k = 0; k < dim; k++)
         for(int j = 0; j < dim; j++)
         {
-            Xi[k][j] = exp((2*PI*k*j)/dim)*exp(i);
+            Xi[k][j] = exp(i*((2*PI*k*j)/dim));
         }
 }
 
@@ -585,89 +586,27 @@ void GaussSol (QMatr &A, QVect &X, QVect &B)
 {
     QMatr A1(A);
     QVect B1(B);
-    double max;
-    int k, index;
-    int n = A1.Dim();
-    const double eps = 0.00001;  // точность
-    k = 0;
-    while (k < n) {
-    // Поиск строки с максимальным a[i][k]
-      max = abs(A1.Xi[k][k]);
-      index = k;
-      for (int i = k + 1; i < n; i++) {
-        if (abs(A1.Xi[i][k]) > max) {
-          max = abs(A1.Xi[i][k]);
-          index = i;
-        }
-      }
-    // Перестановка строк
-      if (max < eps) {
-      // нет ненулевых диагональных элементов
-        cout << "Решение получить невозможно из-за нулевого столбца " ;
-        cout << index << " матрицы A" << endl;
-      }
-      for (int j = 0; j < n; j++) {
-        complex<double> temp = A1.Xi[k][j];
-        A1.Xi[k][j] = A1.Xi[index][j];
-        A1.Xi[index][j] = temp;
-      }
-      complex<double> temp = B1.Xi[k];
-      B1.Xi[k] = B1.Xi[index];
-      B1.Xi[index] = temp;
-    // Нормализация уравнений
-      for (int i = k; i < n; i++) {
-        complex<double> temp = A1.Xi[i][k];
-        if (abs(temp) < eps) continue; // для нулевого коэффициента пропустить
-        for (int j = 0; j < n; j++) {
-          A1.Xi[i][j] = A1.Xi[i][j] / temp;
-        }
-        B1.Xi[i] = B1.Xi[i] / temp;
-        if (i == k)  continue; // уравнение не вычитать само из себя
-        for (int j = 0; j < n; j++) {
-          A1.Xi[i][j] = A1.Xi[i][j] - A1.Xi[k][j];
-        }
-        B1.Xi[i] = B1.Xi[i] - B1.Xi[k];
-      }
-      k++;
-    }
-    // обратная подстановка
-    for (k = n - 1; k >= 0; k--) {
-      X.Xi[k] = B1.Xi[k];
-      for (int i = 0; i < k; i++) {
-        B1.Xi[i] = B1.Xi[i] - A1.Xi[i][k] * X.Xi[k];
-      }
-    }
-
-    /*for (int k=1; k<=A1.dim; k++)
+    complex<double> h;
+    for (int k=1; k<=A1.dim; k++)
     {
-        A1.nne(k-1);
-        if(A1.Xi[k-1][k-1].real()!=0 && A1.Xi[k-1][k-1].imag()!=0)
+        for (int i=k; i<A1.dim; i++)
         {
-            for (int i=k; i<A1.dim; i++)
+            h=A1.Xi[i][k-1]/A1.Xi[k-1][k-1];
+            for (int j=0; j<A1.dim; j++)
             {
-                h=A1.Xi[i][k-1]/A1.Xi[k-1][k-1];
-                for (int j=0; j<A1.dim; j++)
-                {
-                    A1.Xi[i][j]-=h*A1.Xi[k-1][j];
-                }
-                A1.Xi[i][k-1]=0;
-                B1[i]-=h*B1[k-1];
+                A1.Xi[i][j]-=h*A1.Xi[k-1][j];
             }
-        }
-        else
-        {
-            cout << "nednorod resh";
-            break;
+            B1[i]-=h*B1[k-1];
         }
     }
-    for (int i=A1.dim-1; i>=0; i--)
+    for (int i=B1.dim-1; i>=0; i--)
     {
-        h=0;
-        for (int j=A1.dim-1; j>i; j--)
-            h+=X[j]*A1.Xi[i][j];
-        X[i]=(B1[i]-h)/A1.Xi[i][i];
-    }*/
-
+        X[i]=B1[i];
+        for (int j=i+1; j<B.Dim(); j++)
+            X[i]-=A1.Xi[i][j]*X[j];
+        X[i]/=A1.Xi[i][i];
+    }
+    X.reverse();
 }
 void QMatr:: getLU(QMatr&L, QMatr& U)
 {
