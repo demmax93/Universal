@@ -22,6 +22,9 @@ public slots:
     void The_Slot();
     void The_Slot2();
     void The_Slot3();
+    void The_Slot4();
+    void The_Slot5();
+    void The_Slot6();
 
 private:
 

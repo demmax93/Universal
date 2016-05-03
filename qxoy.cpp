@@ -9,12 +9,12 @@ QXoY::QXoY(QLabel *lbl){
     lblOut  = lbl;
     Rect    = lblOut->rect();
     Pxmp    = new QPixmap(lblOut->size());
-    FMaxX  = 10.0;
-    FMaxY  = 10.0;
-    FMinX  = -10.0;
-    FMinY  = -10.0;
-    FdX    = 1.0;
-    FdY    = 1.0;
+    FMaxX  = 5.0;
+    FMaxY  = 5.0;
+    FMinX  = -5.0;
+    FMinY  = -5.0;
+    FdX    = 0.5;
+    FdY    = 0.5;
     FOX_on = 1;
     FOY_on = 1;
     InitXoY();

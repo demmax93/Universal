@@ -27,74 +27,27 @@ int main(){
     cout<<endl;
 
     int *c = new int[n+m];
-    if(n > m){
-        if(a[m-1] > b[m-1]){
-            for(int i = n + m - 1; i >= n - 1; i--){
-                c[i] = a[i - m];
+    int kn=0;
+    int km=0;
+    for(int i = 0; i < n + m; i++){
+        if(km < m && kn < n){
+            if(a[kn] > b[km]){
+                c[i] = b[km];
+                km++;
+            } else {
+                c[i] = a[kn];
+                kn++;
             }
-            int k=0;
-            for(int i = 0; i < m; i++){
-                if(a[i] > b[i]){
-                    c[k] = b[i];
-                    c[k+1] = a[i];
-                    k += 2;
-                } else {
-                    c[k] = a[i];
-                    c[k+1] = b[i];
-                    k += 2;
-                }
-            }
-        } else if(a[m-1] <= b[m-1]){
-            for(int i = n + m - 1; i >= n; i--){
-                c[i] = a[i - m];
-            }
-            int k=0;
-            for(int i = 0; i < m; i++){
-                if(a[i] > b[i]){
-                    c[k] = b[i];
-                    c[k+1] = a[i];
-                    k += 2;
-                } else {
-                    c[k] = a[i];
-                    c[k+1] = b[i];
-                    k += 2;
-                }
+        } else{
+            if(km == m){
+                c[i] = a[kn];
+                kn++;
+            } else if(kn == n){
+                c[i] = b[km];
+                km++;
             }
         }
-    } else if(m >= n){
-        if(a[n-1] > b[n-1]){
-            for(int i = m + n - 1; i >= m - 1; i--){
-                c[i] = b[i - n];
-            }
-            int k=0;
-            for(int i = 0; i < n; i++){
-                if(a[i] > b[i]){
-                    c[k] = b[i];
-                    c[k+1] = a[i];
-                    k += 2;
-                } else {
-                    c[k] = a[i];
-                    c[k+1] = b[i];
-                    k += 2;
-                }
-            }
-        } else if(a[n-1] <= b[n-1]){
-            for(int i = m + n - 1; i >= m; i--){
-                c[i] = b[i - n];
-            }
-            int k=0;
-            for(int i = 0; i < n; i++){
-                if(a[i] > b[i]){
-                    c[k] = b[i];
-                    c[k+1] = a[i];
-                    k += 2;
-                } else {
-                    c[k] = a[i];
-                    c[k+1] = b[i];
-                    k += 2;
-                }
-            }
-        }
+
     }
 
     for(int i = 0; i < n + m; i++){
